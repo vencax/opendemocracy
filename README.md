@@ -12,7 +12,7 @@ Modern application for democratic process. It is (in constrast to existing solut
 - actual voting, easy voting setup
 - automatic notifications of users about new votings, or voting results, ..
 
-Interresting materials:
-- [DomSchiener/liquid-democracy](https://medium.com/@DomSchiener/liquid-democracy-true-democracy-for-the-21st-century-7c66f5e53b6f#.yap5x7bdv)
--[agoravoting](https://github.com/agoravoting/)
--[heliosvoting](https://vote.heliosvoting.org/)
+interresting materials (research):
+- [DomSchiener/liquid-democracy](https://medium.com/@DomSchiener/liquid-democracy-true-democracy-for-the-21st-century-7c66f5e53b6f#.yap5x7bdv) - interresting article about democratic process in 21st cent.
+- [agoravoting](https://github.com/agoravoting/)
+- [heliosvoting](https://vote.heliosvoting.org/) - promissing, but not modular 'i-know-everything' solution, hard to maintain
