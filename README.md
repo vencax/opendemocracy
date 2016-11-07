@@ -12,6 +12,12 @@ Modern application for democratic process. It is (in constrast to existing solut
 - actual voting, easy voting setup
 - automatic notifications of users about new votings, or voting results, ..
 
+### backend
+
+Build with [express.js](http://expressjs.com/) and secured by [JSON webtokens](https://jwt.io/), uses SQL DB for data storing.
+*Note on modularity*: It can call 3rd party processors of voting result written in different languages.
+It is perfectly ok and allows you to test different exeperimental of voting processing without hassle to collect data.
+
 interresting materials (research):
 - [DomSchiener/liquid-democracy](https://medium.com/@DomSchiener/liquid-democracy-true-democracy-for-the-21st-century-7c66f5e53b6f#.yap5x7bdv) - interresting article about democratic process in 21st cent.
 - [agoravoting](https://github.com/agoravoting/)
