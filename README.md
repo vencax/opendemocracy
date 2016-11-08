@@ -12,6 +12,8 @@ Modern application for democratic process. It is (in constrast to existing solut
 - actual voting, easy voting setup
 - automatic notifications of users about new votings, or voting results, ..
 
+![nakres](doc/nakres.jpg)
+
 ### backend
 
 Build with [express.js](http://expressjs.com/) and secured by [JSON webtokens](https://jwt.io/), uses SQL DB for data storing.
