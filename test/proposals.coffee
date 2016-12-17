@@ -31,7 +31,6 @@ module.exports = (g)->
       p =
         title: 'prop1'
         body: 'I propose to have a party'
-        status: 'draft'
       chai.request(g.baseurl)
       .post('/proposals').send(p)
       .set('Authorization', g.authHeader)
@@ -75,3 +74,27 @@ module.exports = (g)->
         should.not.exist(res.body.title)
         should.not.exist(res.body.id)
         done()
+
+    it 'must delete mine draft proposal', (done) ->
+      chai.request(g.baseurl)
+      .delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+      .end (err, res) ->
+        res.should.have.status(200)
+        res.should.be.json
+        done()
+
+    # it 'must NOT delete other than draft item', (done) ->
+    #   new db.models.Proposal(id: g.prop1.id).fetch()
+    #   .then (prop1) ->
+    #     prop1.set('status', 'voting')
+    #     return prop1.save()
+    #   .then (saved) ->
+    #     chai.request(g.baseurl)
+    #     .delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+    #     .end (err, res) ->
+    #       res.should.have.status(400)
+    #       should.not.exist(res.body.title)
+    #       should.not.exist(res.body.id)
+    #       done()
+    #   .catch (err) ->
+    #     done(err)
