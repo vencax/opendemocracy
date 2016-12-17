@@ -23,25 +23,11 @@ app.use(bodyParser.json())
 
 # setup api
 api = kalamata(app)
-api.expose(db.models.Proposal)
-api.beforeCreateProposal (req, res, proposal) ->
-  proposal.set('author', req.user.id)
-  proposal.set('status', 'draft')
-api.beforeUpdateProposal (req, res, proposal) ->
-  if(req.user.id != proposal.get('author'))
-    res.status(400).send('not mine')
-api.beforeDeleteProposal (req, res, proposal) ->
-  if(req.user.id != proposal.get('author'))
-    return res.status(400).send('not mine')
-  if(proposal.get('status') != 'draft')
-    return res.status(400).send('cannot delete non draft proposal')
-api.afterDeleteProposal (req, res, proposal) ->
-  res.status(200).json({})
-
-api.expose(db.models.ProposalFeedback)
-api.expose(db.models.Comment)
-api.expose(db.models.CommentFeedback)
-api.expose(db.models.Reply)
+require('./lib/proposals')(api, db.models.Proposal)
+require('./lib/proposalfeedbacks')(api, db.models.ProposalFeedback)
+require('./lib/comments')(api, db.models.Comment)
+require('./lib/commentfeedbacks')(api, db.models.CommentFeedback)
+require('./lib/replies')(api, db.models.Reply)
 
 # app.use (err, req, res, next) ->
 #   console.log err
