@@ -55,6 +55,7 @@ describe 'app', ->
   submodules = [
     './proposals'
     './proposalfeedbacks'
+    './comments'
     # './replies'
   ]
   for i in submodules
