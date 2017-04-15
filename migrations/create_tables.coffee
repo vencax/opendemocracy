@@ -3,7 +3,7 @@ exports.up = (knex, Promise) ->
     table.increments('id')
     table.string('title').notNullable()
     table.integer('author').notNullable()
-    table.text('body').notNullable()
+    table.text('content').notNullable()
     table.enu('status', ['draft', 'discussion', 'voting', 'locked'])
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())
   .then ()->
@@ -20,7 +20,7 @@ exports.up = (knex, Promise) ->
       table.integer('upvotes').notNullable().defaultTo(0)
       table.integer('downvotes').notNullable().defaultTo(0)
       table.integer('uid').notNullable()
-      table.text('body').notNullable()
+      table.text('content').notNullable()
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
       # "reply_count": 2,
   .then ()->
@@ -34,7 +34,7 @@ exports.up = (knex, Promise) ->
       table.increments('id')
       table.integer('commentid').references('comments.id')
       table.integer('author').notNullable()
-      table.text('body').notNullable()
+      table.text('content').notNullable()
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
 
 

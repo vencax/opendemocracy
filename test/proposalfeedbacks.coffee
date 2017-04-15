@@ -10,7 +10,7 @@ module.exports = (g)->
 
     p =
       title: 'prop1'
-      body: 'I propose to have a party'
+      content: 'I propose to have a party'
 
     before ()->
       # prepare proposal
@@ -19,7 +19,7 @@ module.exports = (g)->
         res.should.have.status(201)
         res.should.be.json
         res.body.title.should.eql p.title
-        res.body.body.should.eql p.body
+        res.body.content.should.eql p.content
         p.id = res.body.id
 
     it 'must NOT create new PF connected to notexistent proposal', (done) ->

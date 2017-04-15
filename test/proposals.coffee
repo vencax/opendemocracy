@@ -21,14 +21,14 @@ module.exports = (g)->
     it 'shall create a new proposal', () ->
       p =
         title: 'prop1'
-        body: 'I propose to have a party'
+        content: 'I propose to have a party'
       return r.post('/proposals').send(p)
       .set('Authorization', g.authHeader)
       .then (res) ->
         res.should.have.status(201)
         res.should.be.json
         res.body.title.should.eql p.title
-        res.body.body.should.eql p.body
+        res.body.content.should.eql p.content
         g.prop1 = res.body
 
     it 'must NOT update not mine proposal', (done) ->
@@ -51,7 +51,7 @@ module.exports = (g)->
         res.should.have.status(200)
         res.should.be.json
         res.body.title.should.eql g.prop1.title
-        res.body.body.should.eql g.prop1.body
+        res.body.content.should.eql g.prop1.content
 
     it 'must NOT delete not mine proposal', (done) ->
       r.delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader2)
