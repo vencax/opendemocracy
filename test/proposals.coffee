@@ -1,100 +1,91 @@
 
 chai = require('chai')
 should = chai.should()
-db = require('../db')
 
 module.exports = (g)->
 
-  addr = g.baseurl
+  r = chai.request(g.baseurl)
 
   describe 'proposals', ->
 
-    before (done)->
-      db.migrate.rollback().then ()->
-        return db.migrate.latest()
-      .then ()->
-        done()
-      .catch (err)->
-        done(err)
-
     it 'must NOT create new proposal with missing mandatories', (done) ->
-      chai.request(g.baseurl)
-      .post('/proposals').set('Authorization', g.authHeader)
+      r.post('/proposals').set('Authorization', g.authHeader)
       .send({title: 'prop1'})
       .end (err, res) ->
-        res.should.have.status(500)
+        res.should.have.status(400)
         should.not.exist(res.body.title)
         should.not.exist(res.body.id)
         done()
+      return
 
-    it 'shall create a new proposal', (done) ->
+    it 'shall create a new proposal', () ->
       p =
         title: 'prop1'
         body: 'I propose to have a party'
-      chai.request(g.baseurl)
-      .post('/proposals').send(p)
+      return r.post('/proposals').send(p)
       .set('Authorization', g.authHeader)
-      .end (err, res) ->
-        res.should.have.status(200)
+      .then (res) ->
+        res.should.have.status(201)
         res.should.be.json
         res.body.title.should.eql p.title
         res.body.body.should.eql p.body
         g.prop1 = res.body
-        done()
 
     it 'must NOT update not mine proposal', (done) ->
       updated =
         title: 'updated1'
-      chai.request(g.baseurl)
-      .put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader2)
+      r.put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader2)
       .send(updated)
       .end (err, res) ->
         res.should.have.status(400)
         should.not.exist(res.body.title)
         should.not.exist(res.body.id)
         done()
+      return
 
-    it 'must update mine proposal', (done) ->
+    it 'must update mine proposal', () ->
       g.prop1.title = 'updated1'
-      chai.request(g.baseurl)
-      .put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+      return r.put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
       .send(g.prop1)
-      .end (err, res) ->
+      .then (res) ->
         res.should.have.status(200)
         res.should.be.json
         res.body.title.should.eql g.prop1.title
         res.body.body.should.eql g.prop1.body
-        done()
 
     it 'must NOT delete not mine proposal', (done) ->
-      chai.request(g.baseurl)
-      .delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader2)
+      r.delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader2)
       .end (err, res) ->
         res.should.have.status(400)
         should.not.exist(res.body.title)
         should.not.exist(res.body.id)
         done()
+      return
 
-    it 'must delete mine draft proposal', (done) ->
-      chai.request(g.baseurl)
-      .delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+    it 'must NOT delete other than draft item', (done) ->
+      g.prop1.status = 'voting'
+      r.put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+      .send({status: 'voting'})
       .end (err, res) ->
-        res.should.have.status(200)
-        res.should.be.json
-        done()
+        return done(err) if err
+        res.should.have.status(200) # updated
+        # now try to delete it
+        chai.request(g.baseurl)
+        .delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+        .end (err, res) ->
+          res.should.have.status(400)
+          should.not.exist(res.body.title)
+          should.not.exist(res.body.id)
+          done()
+      return
 
-    # it 'must NOT delete other than draft item', (done) ->
-    #   new db.models.Proposal(id: g.prop1.id).fetch()
-    #   .then (prop1) ->
-    #     prop1.set('status', 'voting')
-    #     return prop1.save()
-    #   .then (saved) ->
-    #     chai.request(g.baseurl)
-    #     .delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
-    #     .end (err, res) ->
-    #       res.should.have.status(400)
-    #       should.not.exist(res.body.title)
-    #       should.not.exist(res.body.id)
-    #       done()
-    #   .catch (err) ->
-    #     done(err)
+    it 'must delete mine draft proposal', () ->
+      return r.put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+      .send({status: 'draft'})
+      .then (res) ->
+        res.should.have.status(200) # updated
+        # now delete it
+        return chai.request(g.baseurl)
+        .delete("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+      .then (res) ->
+        res.should.have.status(200)

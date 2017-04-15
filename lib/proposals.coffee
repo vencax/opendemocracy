@@ -1,21 +1,39 @@
+kalamata = require('kalamata')
 
 module.exports = (api, Proposal) ->
 
-  api.expose(Proposal)
+  Mwarez = kalamata(Proposal)
 
-  api.beforeCreateProposal (req, res, proposal) ->
-    proposal.set('author', req.user.id)
-    proposal.set('status', 'draft')
+  _beforeCreate = (req, res, next) ->
+    req.body.author = req.user.id
+    req.body.status = 'draft'
+    next()
 
-  api.beforeUpdateProposal (req, res, proposal) ->
-    if(req.user.id != proposal.get('author'))
-      res.status(400).send('not mine')
+  _beforeUpdate = (req, res, next) ->
+    if(req.user.id != req.fetched.get('author'))
+      return next(status: 400, message: 'not mine')
+    next()
 
-  api.beforeDeleteProposal (req, res, proposal) ->
-    if(req.user.id != proposal.get('author'))
-      return res.status(400).send('not mine')
-    if(proposal.get('status') != 'draft')
-      return res.status(400).send('cannot delete non draft proposal')
+  _beforeDelete = (req, res, next) ->
+    if(req.user.id != req.fetched.get('author'))
+      return next(status: 400, message: 'not mine')
+    if(req.fetched.get('status') != 'draft')
+      return next(status: 400, message: 'cannot delete non draft proposal')
+    next()
 
-  api.afterDeleteProposal (req, res, proposal) ->
-    res.status(200).json({})
+  _before_relation_create = (req, res, next) ->
+    req.body.uid = req.user.id
+    next()
+
+  _before_relation_delete = (req, res, next) ->
+    req.query =
+      uid: req.user.id
+    next()
+
+  api.get('/', Mwarez.list_query, Mwarez.load_query, Mwarez.list_middleware)
+  api.get('/:id', Mwarez.fetch_middleware, Mwarez.detail_middleware)
+  api.post('/', _beforeCreate, Mwarez.create_middleware)
+  api.put('/:id', Mwarez.fetch_middleware, _beforeUpdate, Mwarez.update_middleware)
+  api.delete('/:id', Mwarez.fetch_middleware, _beforeDelete, Mwarez.delete_middleware)
+  api.post('/:id/:relation', Mwarez.fetch_middleware, _before_relation_create, Mwarez.create_relation_middleware)
+  api.delete('/:id/:relation', Mwarez.fetch_middleware, _before_relation_delete, Mwarez.delete_relation_middleware)

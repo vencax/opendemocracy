@@ -7,17 +7,19 @@ exports.up = (knex, Promise) ->
     table.enu('status', ['draft', 'discussion', 'voting', 'locked'])
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())
   .then ()->
-    knex.schema.createTable 'proposalfeedback', (table)->
-      table.integer('proposalid').notNullable()
+    knex.schema.createTable 'proposalfeedbacks', (table)->
+      table.increments('id')
+      table.integer('proposalid').references('proposals.id')
       table.integer('uid').notNullable()
+      table.integer('value').notNullable()
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
   .then ()->
     knex.schema.createTable 'comments', (table)->
       table.increments('id')
-      table.integer('parent').notNullable()
+      table.integer('parent').references('proposals.id')
       table.integer('upvotes').notNullable().defaultTo(0)
       table.integer('downvotes').notNullable().defaultTo(0)
-      table.integer('author').notNullable()
+      table.integer('uid').notNullable()
       table.text('body').notNullable()
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
       # "reply_count": 2,
@@ -25,12 +27,12 @@ exports.up = (knex, Promise) ->
     knex.schema.createTable 'commentfeedbacks', (table)->
       table.increments('id')
       table.integer('uid').notNullable()
-      table.integer('commentid').notNullable()
-      table.integer('feedback').notNullable()
+      table.integer('commentid').references('comments.id')
+      table.integer('value').notNullable()
   .then ()->
     knex.schema.createTable 'replies', (table)->
       table.increments('id')
-      table.integer('commentid').notNullable()
+      table.integer('commentid').references('comments.id')
       table.integer('author').notNullable()
       table.text('body').notNullable()
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
@@ -39,7 +41,7 @@ exports.up = (knex, Promise) ->
 exports.down = (knex, Promise) ->
   return knex.schema.dropTable('proposals')
   .then ()->
-    knex.schema.dropTable('proposalfeedback')
+    knex.schema.dropTable('proposalfeedbacks')
   .then ()->
     knex.schema.dropTable('comments')
   .then ()->

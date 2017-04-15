@@ -2,7 +2,6 @@ express = require('express')
 bodyParser = require('body-parser')
 cors = require('cors')
 expressJwt = require('express-jwt')
-kalamata = require('kalamata')
 db = require('./db')
 
 # create app
@@ -22,13 +21,15 @@ app.use(expressJwt(jwtOpts))
 app.use(bodyParser.json())
 
 # setup api
-api = kalamata(app)
+api = express()
 require('./lib/proposals')(api, db.models.Proposal)
-require('./lib/proposalfeedbacks')(api, db.models.ProposalFeedback)
-require('./lib/comments')(api, db.models.Comment)
-require('./lib/commentfeedbacks')(api, db.models.CommentFeedback)
-require('./lib/replies')(api, db.models.Reply)
+app.use('/proposals', api)
 
-# app.use (err, req, res, next) ->
-#   console.log err
-#   res.status(400).send(err)
+api = express()
+require('./lib/comments')(api, db.models.Comment)
+app.use('/comments', api)
+
+
+app.use (err, req, res, next) ->
+  console.log err
+  res.status(400).send(err)

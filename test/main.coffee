@@ -28,10 +28,18 @@ describe 'app', ->
 
   before (done) ->
     this.timeout(5000)
-    # init server
-    g.server = app.listen port, (err) ->
-      return done(err) if err
-      done()
+    db = require('../db')
+    g.db = db
+    db.migrate.rollback().then ()->
+      return db.migrate.latest()
+    .then ()->
+      # init server
+      g.server = app.listen port, (err) ->
+        return done(err) if err
+        done()
+      return
+    .catch(done)
+    return
 
   after (done) ->
     g.server.close()
@@ -46,7 +54,8 @@ describe 'app', ->
 
   submodules = [
     './proposals'
-    './replies'
+    './proposalfeedbacks'
+    # './replies'
   ]
   for i in submodules
     SubMod = require(i)

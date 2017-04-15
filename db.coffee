@@ -4,7 +4,8 @@ debugopts =
   client: 'sqlite3'
   connection:
     filename: ':memory:'
-  # debug: true
+  useNullAsDefault: true
+  debug: true
   migrations:
     directory: __dirname + '/migrations'
   seeds:
@@ -19,14 +20,28 @@ bookshelf = require('bookshelf')(knex)
 
 Proposal = bookshelf.Model.extend
   tableName: 'proposals'
+  feedbacks: ()->
+    this.hasMany(ProposalFeedback, 'proposalid')
+
 ProposalFeedback = bookshelf.Model.extend
-  tableName: 'proposalfeedback'
+  tableName: 'proposalfeedbacks'
+  proposal: () ->
+    this.belongsTo(Proposal, 'proposalid')
+
 Comment = bookshelf.Model.extend
   tableName: 'comments'
+  proposal: () ->
+    this.belongsTo(Proposal, 'parent')
+
 CommentFeedback = bookshelf.Model.extend
   tableName: 'commentfeedbacks'
+  comment: () ->
+    this.belongsTo(Comment, 'commentid')
+
 Reply = bookshelf.Model.extend
   tableName: 'replies'
+  comment: () ->
+    this.belongsTo(Comment, 'commentid')
 
 knex.models =
   Proposal: Proposal

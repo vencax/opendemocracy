@@ -18,10 +18,11 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "bookshelf": "^0.10.2",
+    "coffee-script": "^1.12.5",
     "cors": "^2.8.1",
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
-    "kalamata": "mikec/kalamata",
+    "kalamata": "vencax/kalamata#v2",
     "knex": "^0.12.6"
   },
   "devDependencies": {
@@ -30,6 +31,6 @@
     "husky": "^0.11.9",
     "jsonwebtoken": "^7.2.1",
     "mocha": "^2.3.4",
-    "sqlite3": "^3.1.1"
+    "sqlite3": "^3.1.8"
   }
 }
