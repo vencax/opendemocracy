@@ -31,5 +31,8 @@ app.use('/comments', api)
 
 
 app.use (err, req, res, next) ->
-  console.log err
   res.status(400).send(err)
+  if process.env.NODE_ENV != 'production'
+    console.log '---------------------------------------------------------'
+    console.log err
+    console.log '---------------------------------------------------------'
