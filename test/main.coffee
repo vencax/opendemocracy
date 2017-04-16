@@ -56,7 +56,7 @@ describe 'app', ->
     './proposals'
     './proposalfeedbacks'
     './comments'
-    # './replies'
+    './replies'
   ]
   for i in submodules
     SubMod = require(i)

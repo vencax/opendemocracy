@@ -33,7 +33,7 @@ exports.up = (knex, Promise) ->
     knex.schema.createTable 'replies', (table)->
       table.increments('id')
       table.integer('commentid').references('comments.id')
-      table.integer('author').notNullable()
+      table.integer('uid').notNullable()
       table.text('content').notNullable()
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
 
