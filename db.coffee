@@ -34,6 +34,8 @@ Comment = bookshelf.Model.extend
     this.belongsTo(Proposal, 'parent')
   replies: ()->
     this.hasMany(Reply, 'commentid')
+  feedbacks: ()->
+    this.hasMany(CommentFeedback, 'commentid')
 
 CommentFeedback = bookshelf.Model.extend
   tableName: 'commentfeedbacks'
