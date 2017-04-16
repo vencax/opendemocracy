@@ -25,15 +25,21 @@ module.exports = (api, Proposal) ->
     req.body.uid = req.user.id
     next()
 
-  _before_relation_delete = (req, res, next) ->
-    req.query =
-      uid: req.user.id
-    next()
-
   api.get('/', Mwarez.list_query, Mwarez.load_query, Mwarez.list_middleware)
   api.get('/:id', Mwarez.fetch_middleware, Mwarez.detail_middleware)
   api.post('/', _beforeCreate, Mwarez.create_middleware)
   api.put('/:id', Mwarez.fetch_middleware, _beforeUpdate, Mwarez.update_middleware)
   api.delete('/:id', Mwarez.fetch_middleware, _beforeDelete, Mwarez.delete_middleware)
   api.post('/:id/:relation', Mwarez.fetch_middleware, _before_relation_create, Mwarez.create_relation_middleware)
-  api.delete('/:id/:relation', Mwarez.fetch_middleware, _before_relation_delete, Mwarez.delete_relation_middleware)
+
+  _before_relation_delete = (req, res, next) ->
+    req.query =
+      uid: req.user.id
+    next()
+
+  api.delete('/:id/:relation',
+    Mwarez.fetch_middleware,
+    _before_relation_delete,
+    Mwarez.load_related_middleware,
+    Mwarez.delete_relation_middleware
+  )
