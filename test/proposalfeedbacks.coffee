@@ -34,7 +34,7 @@ module.exports = (g)->
       return
 
     it 'must NOT create new PF with wrong value', (done) ->
-      r.post("/proposals/NOTEXISTS/feedbacks")
+      r.post("/proposals/#{p.id}/feedbacks")
       .set('Authorization', g.authHeader)
       .send({value: 'wrong'})
       .end (err, res) ->
