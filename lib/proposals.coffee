@@ -22,6 +22,9 @@ module.exports = (api, Proposal) ->
     next()
 
   _before_relation_create = (req, res, next) ->
+    value = parseInt(req.body.value)
+    if isNaN(value) or value != 1
+      return next(status: 400, message: 'wrong value, must be 1')
     req.body.uid = req.user.id
     next()
 

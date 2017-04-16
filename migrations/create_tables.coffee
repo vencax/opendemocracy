@@ -13,6 +13,7 @@ exports.up = (knex, Promise) ->
       table.integer('uid').notNullable()
       table.integer('value').notNullable()
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
+      table.unique(['proposalid', 'uid']);
   .then ()->
     knex.schema.createTable 'comments', (table)->
       table.increments('id')

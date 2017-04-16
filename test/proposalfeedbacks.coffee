@@ -33,6 +33,17 @@ module.exports = (g)->
         done()
       return
 
+    it 'must NOT create new PF with wrong value', (done) ->
+      r.post("/proposals/NOTEXISTS/feedbacks")
+      .set('Authorization', g.authHeader)
+      .send({value: 'wrong'})
+      .end (err, res) ->
+        res.should.have.status(400)
+        should.not.exist(res.body.title)
+        should.not.exist(res.body.id)
+        done()
+      return
+
     it 'must create new PF', () ->
       return r.post("/proposals/#{p.id}/feedbacks")
       .set('Authorization', g.authHeader)
@@ -42,6 +53,17 @@ module.exports = (g)->
         res.should.be.json
         res.body.proposalid.should.eql p.id
         res.body.uid.should.eql g.loggedUser.id
+
+    it 'must NOT create duplicate PF on same proposal', (done) ->
+      r.post("/proposals/#{p.id}/feedbacks")
+      .set('Authorization', g.authHeader)
+      .send({value: 1})
+      .end (err, res)->
+        res.should.have.status(400)
+        should.not.exist(res.body.title)
+        should.not.exist(res.body.id)
+        done()
+      return
 
     # not necessaty to test, it is not possible to achieve
     # it 'must NOT delete NOT mine proposal feedback', (done) ->
