@@ -4,7 +4,10 @@ exports.up = (knex, Promise) ->
     table.string('title').notNullable()
     table.integer('author').notNullable()
     table.text('content').notNullable()
-    table.enu('status', ['draft', 'discussion', 'voting', 'locked'])
+    table.enu('votingtyp', ['bool', 'singleoption'])
+    table.integer('voteforce').notNullable().defaultTo(1)
+    table.enu('typ', ['proposal'])
+    table.enu('status', ['draft', 'discussing', 'voting', 'locked'])
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())
   .then ()->
     knex.schema.createTable 'proposalfeedbacks', (table)->

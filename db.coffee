@@ -47,11 +47,30 @@ Reply = bookshelf.Model.extend
   comment: () ->
     this.belongsTo(Comment, 'commentid')
 
+Voting = bookshelf.Model.extend
+  tableName: 'votings'
+  proposal: () ->
+    this.hasOne(Proposal, 'proposalid')
+
+Option = bookshelf.Model.extend
+  tableName: 'votoptions'
+  proposal: () ->
+    this.belongsTo(Proposal, 'proposalid')
+
+Votecast = bookshelf.Model.extend
+  tableName: 'votcasts'
+  option: () ->
+    this.belongsTo(Option, 'optionid')
+
 knex.models =
   Proposal: Proposal
   ProposalFeedback: ProposalFeedback
   Comment: Comment
   CommentFeedback: CommentFeedback
   Reply: Reply
+  Option: Option
+  Voting: Voting
+  Votecast: Votecast
+
 
 module.exports = knex

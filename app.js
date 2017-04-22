@@ -33,6 +33,10 @@ api = express()
 require('./lib/comments')(api, db.models.Comment, _createError)
 app.use('/comments', api)
 
+api = express()
+require('./lib/votings')(api, db.models.Voting, _createError)
+app.use('/votings', api)
+
 
 function _general_error_handler(err, req, res, next) {
   res.status(err.status || 400).send(err.message || err)
