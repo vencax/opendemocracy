@@ -53,6 +53,9 @@ Voting = bookshelf.Model.extend
   tableName: 'votings'
   proposal: () ->
     this.hasOne(Proposal, 'proposalid')
+  casts: ()->
+    this.hasMany(Votecast, 'votingid')
+
 
 Option = bookshelf.Model.extend
   tableName: 'votoptions'
@@ -61,8 +64,8 @@ Option = bookshelf.Model.extend
 
 Votecast = bookshelf.Model.extend
   tableName: 'votcasts'
-  option: () ->
-    this.belongsTo(Option, 'optionid')
+  voting: () ->
+    this.belongsTo(Voting, 'votingid')
 
 knex.models =
   Proposal: Proposal

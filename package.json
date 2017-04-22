@@ -23,7 +23,8 @@
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
     "kalamata": "vencax/kalamata#v2",
-    "knex": "^0.12.6"
+    "knex": "^0.12.6",
+    "moment": "^2.18.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

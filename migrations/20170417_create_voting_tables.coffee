@@ -14,8 +14,10 @@ exports.up = (knex, Promise) ->
   .then ()->
     knex.schema.createTable 'votcasts', (table)->
       table.increments('id')
-      table.integer('optionid').references('votoptions.id')
+      table.integer('votingid').references('votings.id')
       table.integer('uid').notNullable()
+      table.text('content').notNullable()
+      table.timestamp('created').notNullable().defaultTo(knex.fn.now())
 
 
 exports.down = (knex, Promise) ->
