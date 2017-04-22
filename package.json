@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "bookshelf": "^0.10.2",
+    "bookshelf": "vencax/bookshelf",
     "coffee-script": "^1.12.5",
     "cors": "^2.8.1",
     "express": "^4.14.0",
