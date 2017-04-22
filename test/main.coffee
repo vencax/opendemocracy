@@ -55,6 +55,7 @@ describe 'app', ->
   submodules = [
     './proposals'
     './proposalfeedbacks'
+    './proposaloptions'
     './comments'
     './replies'
     './commentfeedbacks'

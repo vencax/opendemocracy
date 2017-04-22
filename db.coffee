@@ -22,6 +22,8 @@ Proposal = bookshelf.Model.extend
   tableName: 'proposals'
   feedbacks: ()->
     this.hasMany(ProposalFeedback, 'proposalid')
+  options: ()->
+    this.hasMany(Option, 'proposalid')
 
 ProposalFeedback = bookshelf.Model.extend
   tableName: 'proposalfeedbacks'
