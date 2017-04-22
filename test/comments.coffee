@@ -14,7 +14,7 @@ module.exports = (g)->
 
     before ()->
       # prepare proposal
-      return r.post('/proposals').send(p).set('Authorization', g.authHeader)
+      r.post('/proposals').send(p).set('Authorization', g.authHeader)
       .then (res)->
         res.should.have.status(201)
         res.should.be.json
@@ -34,8 +34,7 @@ module.exports = (g)->
       c =
         parent: p.id
         content: 'I am fancy comment'
-      return r.post('/comments').send(c)
-      .set('Authorization', g.authHeader)
+      r.post('/comments').send(c).set('Authorization', g.authHeader)
       .then (res) ->
         res.should.have.status(201)
         res.should.be.json
@@ -55,7 +54,7 @@ module.exports = (g)->
 
     it 'must update mine proposal', () ->
       g.comment1.content = 'updated comment'
-      return r.put("/comments/#{g.comment1.id}").set('Authorization', g.authHeader)
+      r.put("/comments/#{g.comment1.id}").set('Authorization', g.authHeader)
       .send(content: g.comment1.content)
       .then (res) ->
         res.should.have.status(200)

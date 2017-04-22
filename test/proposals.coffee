@@ -22,8 +22,7 @@ module.exports = (g)->
       p =
         title: 'prop1'
         content: 'I propose to have a party'
-      return r.post('/proposals').send(p)
-      .set('Authorization', g.authHeader)
+      r.post('/proposals').send(p).set('Authorization', g.authHeader)
       .then (res) ->
         res.should.have.status(201)
         res.should.be.json
@@ -45,7 +44,7 @@ module.exports = (g)->
 
     it 'must update mine proposal', () ->
       g.prop1.title = 'updated1'
-      return r.put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+      r.put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
       .send(g.prop1)
       .then (res) ->
         res.should.have.status(200)
@@ -80,7 +79,7 @@ module.exports = (g)->
       return
 
     it 'must delete mine draft proposal', () ->
-      return r.put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
+      r.put("/proposals/#{g.prop1.id}").set('Authorization', g.authHeader)
       .send({status: 'draft'})
       .then (res) ->
         res.should.have.status(200) # updated

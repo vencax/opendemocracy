@@ -17,7 +17,7 @@ module.exports = (g)->
 
     before ()->
       # prepare proposal
-      return r.post('/proposals').send(p).set('Authorization', g.authHeader)
+      r.post('/proposals').send(p).set('Authorization', g.authHeader)
       .then (res)->
         res.should.have.status(201)
         res.should.be.json
@@ -52,8 +52,7 @@ module.exports = (g)->
       return
 
     it 'must create new PF', () ->
-      return r.post("/comments/#{c.id}/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.post("/comments/#{c.id}/feedbacks").set('Authorization', g.authHeader)
       .send({value: 1})
       .then (res)->
         res.should.have.status(201)
@@ -62,8 +61,7 @@ module.exports = (g)->
         res.body.uid.should.eql g.loggedUser.id
 
     it 'must NOT create duplicate PF on same comment', (done) ->
-      r.post("/comments/#{c.id}/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.post("/comments/#{c.id}/feedbacks").set('Authorization', g.authHeader)
       .send({value: 1})
       .end (err, res)->
         res.should.have.status(400)
@@ -73,33 +71,27 @@ module.exports = (g)->
       return
 
     it 'must delete mine PF', () ->
-      return r.delete("/comments/#{c.id}/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.delete("/comments/#{c.id}/feedbacks").set('Authorization', g.authHeader)
       .then (res)->
         res.should.have.status(200)
 
     it 'must delete PF with pushing value -1', () ->
       # create PF with value 1
-      return r.post("/comments/#{c.id}/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.post("/comments/#{c.id}/feedbacks").set('Authorization', g.authHeader)
       .send({value: 1})
       .then (res)->
         res.should.have.status(201)
         # now create PF with value -1
-        return r.post("/comments/#{c.id}/feedbacks")
-        .set('Authorization', g.authHeader)
+        return r.post("/comments/#{c.id}/feedbacks").set('Authorization', g.authHeader)
         .send({value: -1})
       .then (res)->
         res.should.have.status(201)
         # commets feedbacks shall now be []
         # so get comment
-        return r.get("/comments/#{p.id}?load=feedbacks")
-        .set('Authorization', g.authHeader)
+        return r.get("/comments/#{p.id}?_load=feedbacks").set('Authorization', g.authHeader)
       .then (res)->
         # and verify it
         res.should.have.status(200)
         res.should.be.json
         res.body.length.should.be.above 0
         res.body[0].feedbacks.should.eql []
-      .catch (err)->
-        console.log err.text

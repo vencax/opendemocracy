@@ -14,7 +14,7 @@ module.exports = (g)->
 
     before ()->
       # prepare proposal
-      return r.post('/proposals').send(p).set('Authorization', g.authHeader)
+      r.post('/proposals').send(p).set('Authorization', g.authHeader)
       .then (res)->
         res.should.have.status(201)
         res.should.be.json
@@ -23,8 +23,7 @@ module.exports = (g)->
         p.id = res.body.id
 
     it 'must NOT create new PF connected to notexistent proposal', (done) ->
-      r.post("/proposals/NOTEXISTS/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.post("/proposals/NOTEXISTS/feedbacks").set('Authorization', g.authHeader)
       .send({value: 1})
       .end (err, res) ->
         res.should.have.status(400)
@@ -34,8 +33,7 @@ module.exports = (g)->
       return
 
     it 'must NOT create new PF with wrong value', (done) ->
-      r.post("/proposals/#{p.id}/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.post("/proposals/#{p.id}/feedbacks").set('Authorization', g.authHeader)
       .send({value: 'wrong'})
       .end (err, res) ->
         res.should.have.status(400)
@@ -45,8 +43,7 @@ module.exports = (g)->
       return
 
     it 'must create new PF', () ->
-      return r.post("/proposals/#{p.id}/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.post("/proposals/#{p.id}/feedbacks").set('Authorization', g.authHeader)
       .send({value: 1})
       .then (res)->
         res.should.have.status(201)
@@ -55,8 +52,7 @@ module.exports = (g)->
         res.body.uid.should.eql g.loggedUser.id
 
     it 'must NOT create duplicate PF on same proposal', (done) ->
-      r.post("/proposals/#{p.id}/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.post("/proposals/#{p.id}/feedbacks").set('Authorization', g.authHeader)
       .send({value: 1})
       .end (err, res)->
         res.should.have.status(400)
@@ -74,7 +70,6 @@ module.exports = (g)->
     #     done()
 
     it 'must delete mine proposal feedback', () ->
-      return r.delete("/proposals/#{p.id}/feedbacks")
-      .set('Authorization', g.authHeader)
+      r.delete("/proposals/#{p.id}/feedbacks").set('Authorization', g.authHeader)
       .then (res)->
         res.should.have.status(200)
