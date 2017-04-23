@@ -40,3 +40,35 @@ module.exports = (g)->
       r.delete("/votings/#{voting.id}/casts").set('Authorization', g.authHeader)
       .then (res) ->
         res.should.have.status(200)
+
+    it 'must change the voting window to future', () ->
+      item = new (g.db.models.Voting)(id: voting.id)
+      return item.fetch().then (fetched) ->
+        fetched.set
+          begins: moment().add('days', 10).toDate()
+          ends: moment().add('days', 11).toDate()
+        return fetched.save()
+
+    it 'must NOT cast a vote before voting begins', (done) ->
+      r.post('/votings/' + voting.id + '/casts')
+      .set('Authorization', g.authHeader).send(content: '12,23,43')
+      .end (err, res) ->
+        res.should.have.status 400
+        done()
+      return
+
+    it 'must change the voting window to past', () ->
+      item = new (g.db.models.Voting)(id: voting.id)
+      return item.fetch().then (fetched) ->
+        fetched.set
+          begins: moment().subtract('days', 11).toDate()
+          ends: moment().subtract('days', 10).toDate()
+        return fetched.save()
+
+    it 'must NOT cast a vote after voting ends', (done) ->
+      r.post('/votings/' + voting.id + '/casts')
+      .set('Authorization', g.authHeader).send(content: '12,23,43')
+      .end (err, res) ->
+        res.should.have.status 400
+        done()
+      return
