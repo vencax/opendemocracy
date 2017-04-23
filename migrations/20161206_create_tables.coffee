@@ -7,6 +7,7 @@ exports.up = (knex, Promise) ->
     table.text('content').notNullable()
     table.enu('votingtyp', ['bool', 'singleoption'])
     table.integer('voteforce').notNullable().defaultTo(1)
+    table.integer('maxselopts').notNullable().defaultTo(1)
     table.enu('typ', ['proposal'])
     table.enu('status', ['draft', 'discussing', 'voting', 'locked'])
     table.timestamp('created').notNullable().defaultTo(knex.fn.now())

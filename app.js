@@ -23,7 +23,7 @@ app.use(bodyParser.json())  // JSON body parser for parsing incoming data
 
 // setup api
 function _createError(message, status) {
-  return Error({status, message})
+  return {status: status || 400, message}
 }
 let api = express()
 require('./lib/proposals')(api, db.models.Proposal, _createError)
@@ -34,7 +34,7 @@ require('./lib/comments')(api, db.models.Comment, _createError)
 app.use('/comments', api)
 
 api = express()
-require('./lib/votings')(api, db.models.Voting, _createError)
+require('./lib/votings')(api, db.models.Voting, db.models.Option, _createError)
 app.use('/votings', api)
 
 
