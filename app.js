@@ -5,16 +5,16 @@ const expressJwt = require('express-jwt')
 const db = require('./db')
 
 // create app
-module.exports = app = express()
+const app = express()
 
 // init CORS
-opts = {
+const opts = {
   maxAge: 86400,
   origin: process.env.ALLOWED_ORIGIN || /pirati\.cz$/
 }
 app.use(cors(opts))
 
-jwtOpts = {
+const jwtOpts = {
   secret: process.env.SERVER_SECRET
 }
 app.use(expressJwt(jwtOpts))  //
@@ -22,7 +22,7 @@ app.use(expressJwt(jwtOpts))  //
 app.use(bodyParser.json())  // JSON body parser for parsing incoming data
 
 // setup api
-function _createError(message, status) {
+function _createError (message, status) {
   return {status: status || 400, message}
 }
 let api = express()
@@ -37,8 +37,7 @@ api = express()
 require('./lib/votings')(api, db.models.Voting, db.models.Option, _createError)
 app.use('/votings', api)
 
-
-function _general_error_handler(err, req, res, next) {
+function _generalErrorHandler (err, req, res, next) {
   res.status(err.status || 400).send(err.message || err)
   if (process.env.NODE_ENV !== 'production') {
     console.log('---------------------------------------------------------')
@@ -46,4 +45,6 @@ function _general_error_handler(err, req, res, next) {
     console.log('---------------------------------------------------------')
   }
 }
-app.use(_general_error_handler)
+app.use(_generalErrorHandler)
+
+module.exports = app

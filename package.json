@@ -4,7 +4,7 @@
   "description": "backend part of democratic process support application",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register test",
+    "test": "standard && mocha --compilers coffee:coffee-script/register test",
     "start": "export NODE_ENV=production && node server.js",
     "precommit": "npm test"
   },
@@ -32,6 +32,7 @@
     "husky": "^0.11.9",
     "jsonwebtoken": "^7.2.1",
     "mocha": "^2.3.4",
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^3.1.8",
+    "standard": "^10.0.3"
   }
 }
