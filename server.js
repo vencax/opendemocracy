@@ -1,4 +1,4 @@
-
+require('dotenv').config()
 require('coffee-script/register')
 var port = process.env.PORT || 3000
 var app = require('./app')
