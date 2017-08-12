@@ -1,8 +1,15 @@
 require('dotenv').config()
 require('coffee-script/register')
-var port = process.env.PORT || 3000
-var app = require('./app')
+const port = process.env.PORT || 3000
+const app = require('./app')
+const db = require('./db')
 
-app.listen(port, function () {
-  console.log('gandalf do magic on ' + port)
+db.migrate.latest()
+.then(() => {
+  app.listen(port, function () {
+    console.log('gandalf do magic on ' + port)
+  })
+})
+.catch((err) => {
+  console.log(err)
 })
