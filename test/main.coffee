@@ -7,6 +7,7 @@ chai.use(chaiHttp)
 should = chai.should()
 
 process.env.SERVER_SECRET = 'fhdsakjhfkjal'
+process.env.NODE_ENV = 'test'
 # process.env.DATABASE_URL = 'sqlite://db.sqlite'
 port = process.env.PORT || 3333
 g = {}

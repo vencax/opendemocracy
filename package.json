@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "standard && mocha --compilers coffee:coffee-script/register test",
-    "start": "export NODE_ENV=production && node server.js",
+    "start": "node server.js",
     "precommit": "npm test"
   },
   "keywords": [

@@ -1,9 +1,10 @@
 Knex = require('knex')
+DB_URL = process.env.DATABASE_URL
 
 debugopts =
   client: 'sqlite3'
   connection:
-    filename: ':memory:'
+    filename: if DB_URL then DB_URL else ':memory:'
   useNullAsDefault: true
   debug: true
   migrations:
@@ -13,7 +14,7 @@ debugopts =
 
 opts =
   client: 'mysql'
-  connection: process.env.DATABASE_URL
+  connection: DB_URL
 
 knex = if process.env.NODE_ENV == 'production' then Knex(opts) else Knex(debugopts)
 bookshelf = require('bookshelf')(knex)

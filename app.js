@@ -10,14 +10,14 @@ const app = express()
 // init CORS
 const opts = {
   maxAge: 86400,
-  origin: process.env.ALLOWED_ORIGIN || /pirati\.cz$/
+  origin: process.env.ALLOWED_ORIGIN || '*'
 }
 app.use(cors(opts))
 
 const jwtOpts = {
   secret: process.env.SERVER_SECRET
 }
-app.use(expressJwt(jwtOpts))  //
+!process.env.SKIP_AUTH && app.use(expressJwt(jwtOpts))  //
 
 app.use(bodyParser.json())  // JSON body parser for parsing incoming data
 
