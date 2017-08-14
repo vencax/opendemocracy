@@ -18,6 +18,7 @@ opts =
 
 knex = if process.env.NODE_ENV == 'production' then Knex(opts) else Knex(debugopts)
 bookshelf = require('bookshelf')(knex)
+bookshelf.plugin('pagination')
 
 Proposal = bookshelf.Model.extend
   tableName: 'proposals'
