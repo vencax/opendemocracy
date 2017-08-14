@@ -17,7 +17,12 @@ app.use(cors(opts))
 const jwtOpts = {
   secret: process.env.SERVER_SECRET
 }
-!process.env.SKIP_AUTH && app.use(expressJwt(jwtOpts))  //
+function _fakeAuth (req, res, next) {
+  const p = process.env.FAKEUSER.split(':')
+  req.user = {id: p[0], username: p[1]}
+  next()
+}
+app.use(process.env.FAKEUSER ? _fakeAuth : expressJwt(jwtOpts))  //
 
 app.use(bodyParser.json())  // JSON body parser for parsing incoming data
 
