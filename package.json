@@ -6,7 +6,8 @@
   "scripts": {
     "test": "standard && mocha --compilers coffee:coffee-script/register test",
     "start": "node server.js",
-    "precommit": "npm test"
+    "precommit": "npm test",
+    "testdebug": "./node_modules/.bin/mocha --inspect-brk --compilers coffee:coffee-script/register --timeout 5000 test"
   },
   "keywords": [
     "voting",
@@ -31,8 +32,8 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "husky": "^0.11.9",
-    "jsonwebtoken": "^7.2.1",
-    "mocha": "^2.3.4",
+    "jsonwebtoken": "^7.4.3",
+    "mocha": "^3.5.0",
     "sqlite3": "^3.1.8",
     "standard": "^10.0.3"
   }

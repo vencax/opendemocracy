@@ -18,27 +18,25 @@ describe 'app', ->
   g.loggedUser =
     id: 111
     username: 'gandalf'
+    email: 'gandalf@shire.nz'
   g.loggedUser2 =
     id: 11
     username: 'saruman'
-  g.token = jwt.sign(g.loggedUser, process.env.SERVER_SECRET)
-  g.token2 = jwt.sign(g.loggedUser2, process.env.SERVER_SECRET)
-  g.authHeader = "Bearer #{g.token}"
-  g.authHeader2 = "Bearer #{g.token2}"
-
+    email: 'saruman@mordor.cz'
+  g.baseurl = "http://localhost:#{port}"
 
   before (done) ->
     this.timeout(5000)
     db = require('../db')
     g.db = db
-    db.migrate.rollback().then ()->
+    db.migrate.rollback()
+    .then ()->
       return db.migrate.latest()
     .then ()->
       # init server
       g.server = app.listen port, (err) ->
         return done(err) if err
         done()
-      return
     .catch(done)
     return
 
@@ -50,18 +48,31 @@ describe 'app', ->
     should.exist g.app
     done()
 
-  # run the rest of tests
-  g.baseurl = "http://localhost:#{port}"
+  describe 'API', ->
 
-  submodules = [
-    './proposals'
-    './proposalfeedbacks'
-    './proposaloptions'
-    './comments'
-    './replies'
-    './commentfeedbacks'
-    './votings'
-  ]
-  for i in submodules
-    SubMod = require(i)
-    SubMod(g)
+    before () ->
+      r = chai.request(g.baseurl)
+      return r.post('/login').send(g.loggedUser)
+      .then (res)->
+        res.should.have.status(200)
+        g.token = res.body.token
+        g.authHeader = "Bearer #{g.token}"
+        r.post('/login').send(g.loggedUser2)
+      .then (res)->
+        res.should.have.status(200)
+        g.token2 = res.body.token
+        g.authHeader2 = "Bearer #{g.token2}"
+
+    # run the rest of tests
+    submodules = [
+      './proposals'
+      './proposalfeedbacks'
+      './proposaloptions'
+      './comments'
+      './replies'
+      './commentfeedbacks'
+      './votings'
+    ]
+    for i in submodules
+      SubMod = require(i)
+      SubMod(g)

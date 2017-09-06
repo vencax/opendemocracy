@@ -13,18 +13,22 @@ const opts = {
   origin: process.env.ALLOWED_ORIGIN || '*'
 }
 app.use(cors(opts))
-
-const jwtOpts = {
-  secret: process.env.SERVER_SECRET
-}
-function _fakeAuth (req, res, next) {
-  const p = process.env.FAKEUSER.split(':')
-  req.user = {id: p[0], username: p[1]}
-  next()
-}
-app.use(process.env.FAKEUSER ? _fakeAuth : expressJwt(jwtOpts))  //
-
 app.use(bodyParser.json())  // JSON body parser for parsing incoming data
+
+// testing login
+if (process.env.NODE_ENV !== 'production') {
+  const jwt = require('jsonwebtoken')
+  app.post('/login', (req, res, next) => {
+    const token = jwt.sign(req.body, process.env.SERVER_SECRET, {
+      expiresIn: '1d'
+    })
+    res.json({user: req.body, token: token})
+  })
+}
+// auth
+app.use(expressJwt({
+  secret: process.env.SERVER_SECRET
+}))
 
 // setup api
 function _createError (message, status) {
