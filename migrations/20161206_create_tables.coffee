@@ -1,8 +1,8 @@
 exports.up = (knex, Promise) ->
   return knex.schema.createTable 'proposals', (table)->
     table.increments('id')
-    table.string('title').notNullable()
-    table.integer('author').notNullable() # human readadble author
+    table.string('title', 64).notNullable()
+    table.string('author', 64).notNullable() # human readadble author
     table.integer('uid').notNullable()
     table.text('content').notNullable()
     table.enu('votingtyp', ['bool', 'singleoption'])
