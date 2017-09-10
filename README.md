@@ -1,6 +1,7 @@
 # OPEN democracy
 
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Build Status](https://travis-ci.org/vencax/opendemocracy.svg?branch=master)](https://travis-ci.org/vencax/opendemocracy)
 
 Modern application for democratic process. It is (in constrast to existing solutions):
 - __modular__ - JS client or Mobile app and simple yet robust and well tested JSON API server
