@@ -6,6 +6,7 @@
   "scripts": {
     "test": "standard && mocha --compilers coffee:coffee-script/register test",
     "start": "node server.js",
+    "startdebug": "node --inspect-brk server.js",
     "precommit": "npm test",
     "testdebug": "./node_modules/.bin/mocha --inspect-brk --compilers coffee:coffee-script/register --timeout 5000 test"
   },
