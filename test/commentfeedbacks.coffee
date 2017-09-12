@@ -95,3 +95,18 @@ module.exports = (g)->
         res.should.be.json
         res.body.length.should.be.above 0
         res.body[0].feedbacks.should.eql []
+
+    it 'must list my feedbacks for given comment', () ->
+      r.post("/comments/#{c.id}/feedbacks") # send feedback as user2
+        .set('Authorization', g.authHeader2).send({value: -1})
+      .then (res)->
+        r.post("/comments/#{c.id}/feedbacks") # send feedback as user1
+          .set('Authorization', g.authHeader).send({value: 1})
+      .then (res)->
+        r.get("/comments/#{c.id}/feedbacks").set('Authorization', g.authHeader)
+      .then (res)->
+        res.should.have.status(200)
+        res.should.be.json
+        res.body.length.should.eql 1
+        res.body[0].value.should.eql 1
+        res.body[0].uid.should.eql g.loggedUser.id
