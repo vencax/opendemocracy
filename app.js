@@ -10,7 +10,9 @@ const app = express()
 // init CORS
 const opts = {
   maxAge: 86400,
-  origin: process.env.ALLOWED_ORIGIN || '*'
+  origin: process.env.ALLOWED_ORIGIN || '*',
+  methods: ['DELETE', 'PUT', 'POST', 'OPTIONS', 'GET'],
+  exposedHeaders: ['x-total-count']
 }
 app.use(cors(opts))
 app.use(bodyParser.json())  // JSON body parser for parsing incoming data
