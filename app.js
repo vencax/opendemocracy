@@ -36,12 +36,13 @@ app.use(expressJwt({
 function _createError (message, status) {
   return {status: status || 400, message}
 }
+
 let api = express()
 require('./lib/proposals')(api, db.models.Proposal, _createError)
 app.use('/proposals', api)
 
 api = express()
-require('./lib/comments')(api, db.models.Comment, _createError)
+require('./lib/comments')(api, db.models.Comment, db.models.CommentFeedback, _createError, db.startTransaction)
 app.use('/comments', api)
 
 api = express()

@@ -27,7 +27,19 @@ let opts = process.env.NODE_ENV === 'production' ? productionOpts : debugOpts
 opts = Object.assign(commonOpts, opts)
 
 const knex = Knex(opts)
+const bookshelf = require('bookshelf')(knex)
+bookshelf.plugin('pagination')
+const models = Models(bookshelf)
 
-knex.models = Models(knex)
+function _startTransaction (req, res, next) {
+  // bookshelf.transaction((trx) => {
+  // req.trx = trx
+  next()
+  // })
+}
 
-module.exports = knex
+module.exports = {
+  models: models,
+  startTransaction: _startTransaction,
+  migrate: knex.migrate
+}

@@ -4,7 +4,7 @@
   "description": "backend part of democratic process support application",
   "main": "server.js",
   "scripts": {
-    "test": "standard && mocha --compilers coffee:coffee-script/register test",
+    "test": "standard && mocha test",
     "start": "node server.js",
     "startdebug": "node --inspect-brk server.js",
     "precommit": "npm test",
@@ -20,13 +20,12 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "bookshelf": "vencax/bookshelf",
-    "coffee-script": "^1.12.5",
     "cors": "^2.8.1",
     "dotenv": "^4.0.0",
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
     "kalamata": "vencax/kalamata#v2",
-    "knex": "^0.12.6",
+    "knex": "^0.13.0",
     "moment": "^2.18.1"
   },
   "devDependencies": {
