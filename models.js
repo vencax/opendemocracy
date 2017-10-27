@@ -1,10 +1,6 @@
 
-module.exports = (knex) => {
+module.exports = (bookshelf) => {
   //
-  const bookshelf = require('bookshelf')(knex)
-
-  bookshelf.plugin('pagination')
-
   const Proposal = bookshelf.Model.extend({
     tableName: 'proposals',
     feedbacks: function () {

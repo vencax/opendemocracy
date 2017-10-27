@@ -17,7 +17,8 @@ const debugOpts = {
     filename: DB_URL === undefined ? ':memory:' : DB_URL
   },
   useNullAsDefault: true,
-  debug: true
+  debug: true,
+  pool: { min: 0, max: 7 }
 }
 const productionOpts = {
   client: 'mysql',
@@ -31,11 +32,8 @@ const bookshelf = require('bookshelf')(knex)
 bookshelf.plugin('pagination')
 const models = Models(bookshelf)
 
-function _startTransaction (req, res, next) {
-  // bookshelf.transaction((trx) => {
-  // req.trx = trx
-  next()
-  // })
+function _startTransaction (cb) {
+  return bookshelf.transaction(cb)
 }
 
 module.exports = {
