@@ -42,7 +42,7 @@ require('./lib/proposals')(api, db.models.Proposal, _createError)
 app.use('/proposals', api)
 
 api = express()
-require('./lib/comments')(api, db.models.Comment, db.models.CommentFeedback, _createError, db.startTransaction)
+require('./lib/comments')(api, db.models, _createError, db.startTransaction)
 app.use('/comments', api)
 
 api = express()
