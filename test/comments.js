@@ -47,6 +47,11 @@ module.exports = function (g) {
         res.should.have.header('content-type', /^application\/json/)
         res.body.content.should.eql(c.content)
         g.comment1 = res.body
+        return r.get(`/proposals/${p.id}`).set('Authorization', g.authHeader)
+      })
+      .then(res => {
+        res.should.have.status(200)
+        res.body.comment_count.should.eql(1)
       })
     })
 
