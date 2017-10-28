@@ -1,4 +1,4 @@
-/* global describe it */
+/* global describe it before */
 const chai = require('chai')
 const should = chai.should()
 
