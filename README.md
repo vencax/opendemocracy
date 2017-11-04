@@ -27,3 +27,7 @@ interresting materials (research):
 - [DomSchiener/liquid-democracy](https://medium.com/@DomSchiener/liquid-democracy-true-democracy-for-the-21st-century-7c66f5e53b6f#.yap5x7bdv) - interresting article about democratic process in 21st cent.
 - [agoravoting](https://github.com/agoravoting/)
 - [heliosvoting](https://vote.heliosvoting.org/) - promissing, but not modular 'i-know-everything' solution, hard to maintain
+
+### web client
+
+React/mobX based web application for this API on [https://github.com/vencax/opendemocracy-webclient](https://github.com/vencax/opendemocracy-webclient)
