@@ -19,6 +19,7 @@ exports.up = (knex, Promise) => {
       table.integer('uid').notNullable()
       table.text('content').notNullable()
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
+      table.unique(['votingid', 'uid'])
     })
   ])
 }
