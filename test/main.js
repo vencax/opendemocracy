@@ -1,10 +1,12 @@
 /* global describe it before after */
+const fs = require('fs')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 const should = chai.should()
 
 process.env.SERVER_SECRET = 'fhdsakjhfkjal'
+process.env.DATABASE_URL = 'test.sqlite'
 process.env.NODE_ENV = 'test'
 const port = process.env.PORT || 3333
 const g = {
@@ -41,6 +43,7 @@ describe('app', () => {
 
   after((done) => {
     g.server.close()
+    fs.unlinkSync(process.env.DATABASE_URL)
     done()
   })
 
