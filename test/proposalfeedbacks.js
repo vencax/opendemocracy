@@ -54,7 +54,7 @@ module.exports = function (g) {
       .then(function (res) {
         res.should.have.status(201)
         res.should.have.header('content-type', /^application\/json/)
-        res.body.proposalid.should.eql(p.id)
+        res.body.proposalid.should.eql(p.id.toString())
         res.body.uid.should.eql(g.loggedUser.id)
       })
     })

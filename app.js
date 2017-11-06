@@ -37,8 +37,10 @@ function _createError (message, status) {
   return {status: status || 400, message}
 }
 
+const manager = require('./lib/manager')(db)
+
 let api = express()
-require('./lib/proposals')(api, db.models.Proposal, _createError)
+require('./lib/proposals')(api, db.models, _createError, db.startTransaction, manager)
 app.use('/proposals', api)
 
 api = express()
@@ -46,7 +48,7 @@ require('./lib/comments')(api, db.models, _createError, db.startTransaction)
 app.use('/comments', api)
 
 api = express()
-require('./lib/votings')(api, db.models.Voting, db.models.Option, _createError)
+require('./lib/votings/api')(api, db.models.Voting, db.models.Option, _createError)
 app.use('/votings', api)
 
 function _generalErrorHandler (err, req, res, next) {
