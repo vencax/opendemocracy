@@ -6,7 +6,8 @@ chai.use(chaiHttp)
 const should = chai.should()
 
 process.env.SERVER_SECRET = 'fhdsakjhfkjal'
-process.env.DATABASE_URL = 'test.sqlite'
+const rand = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 15)
+process.env.DATABASE_URL = rand + 'test.sqlite'
 process.env.NODE_ENV = 'test'
 const port = process.env.PORT || 3333
 const g = {
