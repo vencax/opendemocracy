@@ -3,13 +3,11 @@ exports.up = (knex, Promise) => {
     knex.schema.createTable('proposals', (table) => {
       table.increments('id')
       table.string('title', 64).notNullable()
-      table.string('author', 64).notNullable() // human readadble author
       table.integer('uid').notNullable()
       table.text('content').notNullable()
       table.enu('votingtyp', ['bool', 'singleoption'])
       table.integer('voteforce').notNullable().defaultTo(1)
       table.integer('maxselopts').notNullable().defaultTo(1)
-      table.integer('reply_count').defaultTo(0)
       table.integer('comment_count').defaultTo(0)
       table.enu('typ', ['proposal'])
       table.enu('status', ['draft', 'discussing', 'voting', 'locked'])
