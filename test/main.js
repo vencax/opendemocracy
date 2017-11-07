@@ -25,6 +25,7 @@ const g = {
 }
 
 describe('app', () => {
+  this.timeout(5000)
   g.app = require('../app')
 
   before((done) => {
