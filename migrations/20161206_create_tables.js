@@ -10,7 +10,8 @@ exports.up = (knex, Promise) => {
       table.integer('maxselopts').notNullable().defaultTo(1)
       table.integer('comment_count').defaultTo(0)
       table.enu('typ', ['proposal'])
-      table.enu('status', ['draft', 'discussing', 'voting', 'locked'])
+      table.enu('status', ['draft', 'discussing', 'thinking', 'voting', 'locked'])
+      table.timestamp('laststatuschange')
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
     }),
     knex.schema.createTable('proposalfeedbacks', (table) => {
