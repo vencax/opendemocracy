@@ -5,10 +5,14 @@ exports.up = (knex, Promise) => {
       table.string('title', 64).notNullable()
       table.integer('uid').notNullable()
       table.text('content').notNullable()
+      table.integer('comment_count').defaultTo(0)
+      // voting attrs
+      table.timestamp('votingbegins')
+      table.timestamp('votingends')
       table.enu('votingtyp', ['bool', 'singleoption'])
       table.integer('voteforce').notNullable().defaultTo(1)
       table.integer('maxselopts').notNullable().defaultTo(1)
-      table.integer('comment_count').defaultTo(0)
+
       table.enu('typ', ['proposal'])
       table.enu('status', ['draft', 'discussing', 'thinking', 'voting', 'locked'])
       table.timestamp('laststatuschange')

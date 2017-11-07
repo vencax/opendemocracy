@@ -47,10 +47,6 @@ api = express()
 require('./lib/comments')(api, db.models, _createError, db.startTransaction)
 app.use('/comments', api)
 
-api = express()
-require('./lib/votings/api')(api, db.models.Voting, db.models.Option, _createError)
-app.use('/votings', api)
-
 function _generalErrorHandler (err, req, res, next) {
   res.status(err.status || 400).send(err.message || err)
   if (process.env.NODE_ENV !== 'production') {

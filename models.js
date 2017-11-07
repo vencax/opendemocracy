@@ -8,6 +8,9 @@ module.exports = (bookshelf) => {
     },
     options: function () {
       return this.hasMany(Option, 'proposalid')
+    },
+    casts: function () {
+      return this.hasMany(Votecast, 'proposalid')
     }
   })
 
@@ -45,16 +48,6 @@ module.exports = (bookshelf) => {
     }
   })
 
-  const Voting = bookshelf.Model.extend({
-    tableName: 'votings',
-    proposal: function () {
-      return this.hasOne(Proposal, 'proposalid')
-    },
-    casts: function () {
-      return this.hasMany(Votecast, 'votingid')
-    }
-  })
-
   const Option = bookshelf.Model.extend({
     tableName: 'votoptions',
     proposal: function () {
@@ -65,7 +58,7 @@ module.exports = (bookshelf) => {
   const Votecast = bookshelf.Model.extend({
     tableName: 'votcasts',
     voting: function () {
-      return this.belongsTo(Voting, 'votingid')
+      return this.belongsTo(Proposal, 'proposalid')
     }
   })
 
@@ -76,7 +69,6 @@ module.exports = (bookshelf) => {
     CommentFeedback: CommentFeedback,
     Reply: Reply,
     Option: Option,
-    Voting: Voting,
     Votecast: Votecast
   }
 }

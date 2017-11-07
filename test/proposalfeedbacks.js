@@ -20,6 +20,10 @@ module.exports = function (g) {
         res.body.title.should.eql(p.title)
         res.body.content.should.eql(p.content)
         p.id = res.body.id
+        return r.put(`/proposals/${p.id}/publish`).set('Authorization', g.authHeader)
+      })
+      .then(function (res) {
+        res.should.have.status(200)
       })
     })
 
