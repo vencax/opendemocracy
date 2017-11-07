@@ -4,7 +4,7 @@
   "description": "backend part of democratic process support application",
   "main": "server.js",
   "scripts": {
-    "test": "standard && mocha test",
+    "test": "standard && mocha test --timeout 5000",
     "start": "node server.js",
     "startdebug": "node --inspect-brk server.js",
     "precommit": "npm test",
