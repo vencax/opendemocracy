@@ -26,7 +26,8 @@
     "express-jwt": "^5.1.0",
     "kalamata": "vencax/kalamata#v2",
     "knex": "^0.13.0",
-    "moment": "^2.18.1"
+    "moment": "^2.18.1",
+    "node-schedule": "^1.2.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",
