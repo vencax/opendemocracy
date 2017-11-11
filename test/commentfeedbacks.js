@@ -1,6 +1,7 @@
 /* global describe it before */
 const chai = require('chai')
 const should = chai.should()
+const Utils = require('./utils')
 
 module.exports = (g) => {
   //
@@ -8,28 +9,22 @@ module.exports = (g) => {
 
   describe('commentfeedbacks (CF)', () => {
     const p = {
-      title: 'CFprop1',
-      content: 'I propose to elect pirates'
+      title: 'CFprop1'
     }
     const c = {
       content: 'good idea'
     }
 
-    before((done) => {
-      setTimeout(() => {
-        r.post('/proposals').send(p).set('Authorization', g.authHeader)
-        .then((res) => {
-          res.should.have.status(201)
-          p.id = c.parent = res.body.id
-          return r.post('/comments').send(c).set('Authorization', g.authHeader)
-        })
-        .then((res) => {
-          res.should.have.status(201)
-          c.id = res.body.id
-          done()
-        })
-        .catch(done)
-      }, 1000)
+    before(() => {
+      return Utils.createProposal(r, g, p)
+      .then((res) => {
+        c.parent = p.id
+        return r.post('/comments').send(c).set('Authorization', g.authHeader)
+      })
+      .then((res) => {
+        res.should.have.status(201)
+        c.id = res.body.id
+      })
     })
 
     it('must NOT create new PF connected to notexistent proposal', (done) => {

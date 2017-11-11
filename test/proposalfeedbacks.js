@@ -1,6 +1,7 @@
 /* global describe it before */
 const chai = require('chai')
 const should = chai.should()
+const Utils = require('./utils')
 
 module.exports = function (g) {
   //
@@ -8,18 +9,12 @@ module.exports = function (g) {
 
   return describe('proposalfeedbacks (PF)', function () {
     const p = {
-      title: 'prop1',
-      content: 'I propose to have a party'
+      title: 'prop1'
     }
 
     before(function () {
-      return r.post('/proposals').send(p).set('Authorization', g.authHeader)
+      return Utils.createProposal(r, g, p)
       .then(function (res) {
-        res.should.have.status(201)
-        res.should.have.header('content-type', /^application\/json/)
-        res.body.title.should.eql(p.title)
-        res.body.content.should.eql(p.content)
-        p.id = res.body.id
         return r.put(`/proposals/${p.id}/publish`).set('Authorization', g.authHeader)
       })
       .then(function (res) {

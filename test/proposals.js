@@ -24,7 +24,8 @@ module.exports = function (g) {
     it('shall create a new proposal', function () {
       const p = {
         title: 'prop1',
-        content: 'I propose to have a party'
+        content: 'I propose to have a party',
+        tags: 'tag1'
       }
       return r.post('/proposals').send(p).set('Authorization', g.authHeader)
       .then(function (res) {

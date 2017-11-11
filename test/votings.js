@@ -1,6 +1,7 @@
 /* global describe it before */
 const chai = require('chai')
 const moment = require('moment')
+const Utils = require('./utils')
 // const should = chai.should()
 
 module.exports = function (g) {
@@ -28,10 +29,8 @@ module.exports = function (g) {
     ]
 
     before(function () {
-      return r.post('/proposals').send(p).set('Authorization', g.authHeader)
-      .then(function (res) {
-        res.should.have.status(201)
-        p.id = res.body.id
+      return Utils.createProposal(r, g, p)
+      .then(() => {
         return r.post('/proposals/' + p.id + '/options').set('Authorization', g.authHeader).send(opts[0])
       })
       .then(function (res) {

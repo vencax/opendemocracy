@@ -1,6 +1,7 @@
 /* global describe it before */
 const chai = require('chai')
 const should = chai.should()
+const Utils = require('./utils')
 
 module.exports = function (g) {
   //
@@ -9,18 +10,16 @@ module.exports = function (g) {
   return describe('reply', function () {
     //
     const p = {
-      title: 'CFpropForReply',
-      content: 'reply proposal'
+      title: 'CFpropForReply'
     }
     const c = {
       content: 'good idea'
     }
 
     before(() => {
-      return r.post('/proposals').send(p).set('Authorization', g.authHeader)
-      .then((res) => {
-        res.should.have.status(201)
-        p.id = c.parent = res.body.id
+      return Utils.createProposal(r, g, p)
+      .then(() => {
+        c.parent = p.id
         return r.post('/comments').send(c).set('Authorization', g.authHeader)
       })
       .then((res) => {

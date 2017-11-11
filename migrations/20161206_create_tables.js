@@ -5,6 +5,7 @@ exports.up = (knex, Promise) => {
       table.string('title', 64).notNullable()
       table.integer('uid').notNullable()
       table.text('content').notNullable()
+      table.string('tags', 64).notNullable()
       table.integer('comment_count').defaultTo(0)
       // voting attrs
       table.timestamp('votingbegins')
@@ -17,6 +18,7 @@ exports.up = (knex, Promise) => {
       table.enu('status', ['draft', 'discussing', 'thinking', 'voting', 'locked'])
       table.timestamp('laststatuschange')
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
+      table.string('group')  // valid for certain group only
     }),
     knex.schema.createTable('proposalfeedbacks', (table) => {
       table.increments('id')

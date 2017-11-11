@@ -1,6 +1,7 @@
 /* global describe it before */
 const chai = require('chai')
 const should = chai.should()
+const Utils = require('./utils')
 
 module.exports = function (g) {
   //
@@ -9,17 +10,11 @@ module.exports = function (g) {
   return describe('comments', function () {
     //
     const p = {
-      title: 'commeted proposal',
-      content: 'I need to be commented'
+      title: 'commeted proposal'
     }
 
     before(function () {
-      return r.post('/proposals').send(p).set('Authorization', g.authHeader)
-      .then(function (res) {
-        res.should.have.status(201)
-        res.should.have.header('content-type', /^application\/json/)
-        p.id = res.body.id
-      })
+      return Utils.createProposal(r, g, p)
     })
 
     it('must NOT create new comments with missing mandatories', function (done) {
