@@ -18,8 +18,6 @@ const opts = {
 app.use(cors(opts))
 app.use(bodyParser.json())  // JSON body parser for parsing incoming data
 
-fakeusers(app)  // init auth routes
-
 // setup api
 function _createError (message, status) {
   return {status: status || 400, message}
@@ -31,6 +29,8 @@ const g = {
   models: db.models,
   startTransaction: db.startTransaction
 }
+
+fakeusers(app, g)  // init auth routes
 
 const manager = require('./lib/manager')(db)
 

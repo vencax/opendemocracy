@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const db = require('./db')
 const User = db.models.User
 
-module.exports = (app, createError) => {
+module.exports = (app, g) => {
   //
   function _mockLogin (req, res, next) {
     function _send (user) {
@@ -16,7 +16,7 @@ module.exports = (app, createError) => {
     .then((existing) => {
       if (existing) {
         if (existing.get('passwd') !== req.body.passwd) {
-          return next(createError('wrong kredenc'))
+          return next(g.createError('wrong kredenc'))
         } else {
           return _send(existing.toJSON())
         }
@@ -51,7 +51,7 @@ module.exports = (app, createError) => {
     new User({id: req.params.uid}).fetch()
     .then((existing) => {
       if (!existing) {
-        return next(createError(404, 'not founda'))
+        return next(g.createError(404, 'not founda'))
       }
       existing = existing.toJSON()
       delete existing.passwd
