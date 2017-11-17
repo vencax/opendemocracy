@@ -62,7 +62,11 @@ module.exports = (bookshelf) => {
     }
   })
 
-  return {
+  const User = bookshelf.Model.extend({
+    tableName: 'users'
+  })
+
+  const models = {
     Proposal: Proposal,
     ProposalFeedback: ProposalFeedback,
     Comment: Comment,
@@ -71,4 +75,6 @@ module.exports = (bookshelf) => {
     Option: Option,
     Votecast: Votecast
   }
+
+  return Object.assign(models, {User: User})
 }

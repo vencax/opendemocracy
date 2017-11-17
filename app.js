@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const expressJwt = require('express-jwt')
 const db = require('./db')
+const fakeusers = require('./fakeusers')
 
 // create app
 const app = express()
@@ -17,16 +18,7 @@ const opts = {
 app.use(cors(opts))
 app.use(bodyParser.json())  // JSON body parser for parsing incoming data
 
-// testing login
-if (process.env.NODE_ENV !== 'production') {
-  const jwt = require('jsonwebtoken')
-  app.post('/login', (req, res, next) => {
-    const token = jwt.sign(req.body, process.env.SERVER_SECRET, {
-      expiresIn: '1d'
-    })
-    res.json({user: req.body, token: token})
-  })
-}
+fakeusers(app)  // init auth routes
 // auth
 app.use(expressJwt({
   secret: process.env.SERVER_SECRET
