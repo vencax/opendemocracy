@@ -19,24 +19,27 @@ app.use(cors(opts))
 app.use(bodyParser.json())  // JSON body parser for parsing incoming data
 
 fakeusers(app)  // init auth routes
-// auth
-app.use(expressJwt({
-  secret: process.env.SERVER_SECRET
-}))
 
 // setup api
 function _createError (message, status) {
   return {status: status || 400, message}
 }
 
+const g = {
+  authMW: expressJwt({secret: process.env.SERVER_SECRET}),
+  createError: _createError,
+  models: db.models,
+  startTransaction: db.startTransaction
+}
+
 const manager = require('./lib/manager')(db)
 
 let api = express()
-require('./lib/proposals')(api, db.models, _createError, db.startTransaction, manager)
+require('./lib/proposals')(api, g, manager)
 app.use('/proposals', api)
 
 api = express()
-require('./lib/comments')(api, db.models, _createError, db.startTransaction)
+require('./lib/comments')(api, g)
 app.use('/comments', api)
 
 function _generalErrorHandler (err, req, res, next) {

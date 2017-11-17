@@ -84,6 +84,13 @@ module.exports = function (g) {
       })
     })
 
+    it('must get proposal', function () {
+      return r.get(`/proposals/${g.prop1.id}`)
+      .then(function (res) {
+        res.should.have.status(200)
+      })
+    })
+
     it('must NOT delete other than draft item', function (done) {
       g.prop1.status = 'voting'
       r.put('/proposals/' + g.prop1.id).set('Authorization', g.authHeader).send({status: 'voting'})
