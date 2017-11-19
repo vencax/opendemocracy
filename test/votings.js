@@ -67,6 +67,22 @@ module.exports = function (g) {
       })
     })
 
+    it('must get my cast', function () {
+      return r.get(`/proposals/${p.id}/casts`).set('Authorization', g.authHeader)
+      .then(function (res) {
+        res.should.have.status(200)
+        res.body.length.should.eql(1)
+      })
+    })
+
+    it('must NOT get notmine cast', function () {
+      return r.get(`/proposals/${p.id}/casts`).set('Authorization', g.authHeader2)
+      .then(function (res) {
+        res.should.have.status(200)
+        res.body.length.should.eql(0)
+      })
+    })
+
     it('must delete a cast', function () {
       return r.delete(`/proposals/${p.id}/casts`).set('Authorization', g.authHeader)
       .then(function (res) {
