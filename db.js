@@ -21,7 +21,7 @@ const debugOpts = {
   pool: { min: 0, max: 7 }
 }
 const productionOpts = {
-  client: 'mysql',
+  client: DB_URL.indexOf('postgres') >= 0 ? 'pg' : 'mysql',
   connection: DB_URL
 }
 let opts = process.env.NODE_ENV === 'production' ? productionOpts : debugOpts
