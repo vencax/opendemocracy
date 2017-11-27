@@ -68,7 +68,7 @@ module.exports = function (g) {
     })
 
     it('must get my cast', function () {
-      return r.get(`/proposals/${p.id}/casts`).set('Authorization', g.authHeader)
+      return r.get(`/proposals/${p.id}/mycast`).set('Authorization', g.authHeader)
       .then(function (res) {
         res.should.have.status(200)
         res.body.length.should.eql(1)
@@ -76,7 +76,7 @@ module.exports = function (g) {
     })
 
     it('must NOT get notmine cast', function () {
-      return r.get(`/proposals/${p.id}/casts`).set('Authorization', g.authHeader2)
+      return r.get(`/proposals/${p.id}/mycast`).set('Authorization', g.authHeader2)
       .then(function (res) {
         res.should.have.status(200)
         res.body.length.should.eql(0)

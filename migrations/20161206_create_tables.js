@@ -10,7 +10,8 @@ exports.up = (knex, Promise) => {
       // voting attrs
       table.timestamp('votingbegins')
       table.timestamp('votingends')
-      table.enu('votingtyp', ['bool', 'singleoption'])
+      table.enu('votingtyp', ['single', 'multi', 'support']).defaultTo('single')
+      table.integer('secret').defaultTo(0)
       table.integer('voteforce').notNullable().defaultTo(1)
       table.integer('maxselopts').notNullable().defaultTo(1)
 
