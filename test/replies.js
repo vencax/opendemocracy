@@ -10,6 +10,7 @@ module.exports = function (g) {
   return describe('reply', function () {
     //
     const p = {
+      typ: 'proposal',
       title: 'CFpropForReply'
     }
     const c = {

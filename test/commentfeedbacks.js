@@ -9,6 +9,7 @@ module.exports = (g) => {
 
   describe('commentfeedbacks (CF)', () => {
     const p = {
+      typ: 'proposal',
       title: 'CFprop1'
     }
     const c = {

@@ -10,6 +10,7 @@ module.exports = function (g) {
   return describe('comments', function () {
     //
     const p = {
+      typ: 'proposal',
       title: 'commeted proposal'
     }
 

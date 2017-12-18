@@ -9,6 +9,7 @@ module.exports = function (g) {
 
   return describe('votings', function () {
     const p = {
+      typ: 'proposal',
       title: 'prop3',
       content: 'I propose to vote pirates!!',
       votingbegins: moment().subtract('days', 1).toDate(),

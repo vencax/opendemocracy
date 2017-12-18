@@ -9,6 +9,7 @@ module.exports = function (g) {
 
   return describe('proposalfeedbacks (PF)', function () {
     const p = {
+      typ: 'proposal',
       title: 'prop1'
     }
 

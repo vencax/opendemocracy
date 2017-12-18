@@ -23,6 +23,7 @@ module.exports = function (g) {
 
     it('shall create a new proposal', function () {
       const p = {
+        typ: 'proposal',
         title: 'prop1',
         content: 'I propose to have a party',
         tags: 'tag1'

@@ -9,6 +9,7 @@ module.exports = function (g) {
 
   return describe('proposal options (PO)', function () {
     const p = {
+      typ: 'proposal',
       title: 'prop2'
     }
     const opt = {
