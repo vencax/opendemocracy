@@ -12,3 +12,10 @@ exports.createProposal = (req, g, p) => {
     return res.body
   })
 }
+
+exports.updateProposal = (g, proposal, change) => {
+  return g.db.models.Proposal.forge({id: proposal.id}).fetch()
+  .then(fetched => {
+    return fetched.save(change, {patch: true})
+  })
+}

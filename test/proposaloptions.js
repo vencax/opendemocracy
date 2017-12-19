@@ -58,9 +58,8 @@ module.exports = function (g) {
     })
 
     it('must NOT create new PO when proposal not in draft mode', function (done) {
-      r.put('/proposals/' + p.id).set('Authorization', g.authHeader).send({status: 'discussing'})
-      .then(function (res) {
-        res.should.have.status(200)
+      Utils.updateProposal(g, p, {status: 'discussing'})
+      .then(() => {
         r.post('/proposals/' + p.id + '/options').set('Authorization', g.authHeader).send(opt)
         .end(function (err, res) {
           if (err) {
@@ -76,9 +75,8 @@ module.exports = function (g) {
     })
 
     it('must NOT delete NOT mine PO', function (done) {
-      r.put('/proposals/' + p.id).set('Authorization', g.authHeader).send({status: 'draft'})
-      .then(function (res) {
-        res.should.have.status(200)
+      Utils.updateProposal(g, p, {status: 'draft'})
+      .then(() => {
         r.delete('/proposals/' + p.id + '/options/' + opt.id).set('Authorization', g.authHeader2)
         .end(function (err, res) {
           if (err) {

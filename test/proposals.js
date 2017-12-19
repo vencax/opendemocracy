@@ -1,6 +1,7 @@
 /* global describe it */
 const chai = require('chai')
 const should = chai.should()
+const Utils = require('./utils')
 
 module.exports = function (g) {
   //
@@ -114,9 +115,8 @@ module.exports = function (g) {
     })
 
     return it('must delete mine draft proposal', function () {
-      return r.put('/proposals/' + g.prop1.id).set('Authorization', g.authHeader).send({status: 'draft'})
-      .then(function (res) {
-        res.should.have.status(200)
+      return Utils.updateProposal(g, g.prop1, {status: 'draft'})
+      .then(() => {
         return r.delete('/proposals/' + g.prop1.id).set('Authorization', g.authHeader)
       })
       .then(function (res) {
