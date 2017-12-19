@@ -11,10 +11,7 @@ module.exports = function (g) {
     const p = {
       typ: 'proposal',
       title: 'prop3',
-      content: 'I propose to vote pirates!!',
-      votingbegins: moment().subtract('days', 1).toDate(),
-      votingends: moment().add('days', 1).toDate(),
-      status: 'voting'
+      content: 'I propose to vote pirates!!'
     }
     const opts = [
       {
@@ -47,6 +44,14 @@ module.exports = function (g) {
       .then(function (res) {
         res.should.have.status(201)
         opts[2].id = res.body.id
+        return g.db.models.Proposal.forge({id: p.id}).fetch()
+      })
+      .then(fetched => {
+        return fetched.save({
+          votingbegins: moment().subtract('days', 1).toDate(),
+          votingends: moment().add('days', 1).toDate(),
+          status: 'voting'
+        }, {patch: true})
       })
     })
 
