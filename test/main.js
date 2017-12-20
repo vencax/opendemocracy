@@ -78,7 +78,8 @@ describe('app', () => {
       './comments',
       './replies',
       './commentfeedbacks',
-      './votings'
+      './votings',
+      './notifications'
     ]
     submodules.map((i) => {
       const subMod = require(i)

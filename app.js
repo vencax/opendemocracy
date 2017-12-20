@@ -42,6 +42,10 @@ api = express()
 require('./lib/comments')(api, g)
 app.use('/comments', api)
 
+api = express()
+require('./lib/notifications').initApi(api, g)
+app.use('/notifications', api)
+
 function _generalErrorHandler (err, req, res, next) {
   res.status(err.status || 400).send(err.message || err)
   if (process.env.NODE_ENV !== 'production') {
