@@ -69,6 +69,9 @@ module.exports = (bookshelf) => {
   const Notification = bookshelf.Model.extend({
     tableName: 'notifications'
   })
+  const SeenNotification = bookshelf.Model.extend({
+    tableName: 'seennotifications'
+  })
 
   const models = {
     Proposal: Proposal,
@@ -78,7 +81,8 @@ module.exports = (bookshelf) => {
     Reply: Reply,
     Option: Option,
     Votecast: Votecast,
-    Notification: Notification
+    Notification: Notification,
+    SeenNotification: SeenNotification
   }
 
   return Object.assign(models, {User: User})

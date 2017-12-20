@@ -9,7 +9,7 @@ module.exports = function (g) {
   return describe('notifications', function () {
     //
     it('must list', function () {
-      return r.get(`/notifications/`)
+      return r.get(`/notifications/`).set('Authorization', g.authHeader)
       .then(function (res) {
         res.should.have.status(200)
       })
