@@ -9,9 +9,10 @@ exports.up = (knex, Promise) => {
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
     }),
     knex.schema.createTable('seennotifications', (table) => {
+      table.increments('id')
       table.integer('notificationid').references('notifications.id')
       table.integer('uid')
-      table.primary(['notificationid', 'uid'])
+      table.unique(['notificationid', 'uid'])
     })
   ])
 }
