@@ -27,7 +27,8 @@ const g = {
   authMW: expressJwt({secret: process.env.SERVER_SECRET}),
   createError: _createError,
   models: db.models,
-  startTransaction: db.startTransaction
+  startTransaction: db.startTransaction,
+  getUserGroups: (user) => user.groups || []
 }
 
 fakeusers(app, g)  // init auth routes

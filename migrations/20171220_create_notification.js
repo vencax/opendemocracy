@@ -5,6 +5,7 @@ exports.up = (knex, Promise) => {
       table.enu('evt', ['propsuport'])
       table.integer('objid').notNullable()
       table.string('title', 64).notNullable()
+      table.string('group', 64)
       table.timestamp('created').notNullable().defaultTo(knex.fn.now())
     }),
     knex.schema.createTable('seennotifications', (table) => {
