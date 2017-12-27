@@ -4,6 +4,7 @@ const chai = require('chai')
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 const should = chai.should()
+const express = require('express')
 
 process.env.SERVER_SECRET = 'fhdsakjhfkjal'
 const rand = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 15)
@@ -23,9 +24,15 @@ const g = {
   },
   baseurl: 'http://localhost:' + port
 }
+function sendMail (mail) {
+  return new Promise((resolve, reject) => {
+    g.sentemails.push(mail)
+    resolve(mail)
+  })
+}
 
 describe('app', () => {
-  g.app = require('../app')
+  const App = require('../app')
 
   before((done) => {
     // this.timeout(5000)
@@ -35,6 +42,8 @@ describe('app', () => {
       return g.db.migrate.latest()
     })
     .then(() => {
+      g.app = express()
+      App(g.app, sendMail)
       g.server = g.app.listen(port, (err) => {
         return err ? done(err) : done()
       })
