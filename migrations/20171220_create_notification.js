@@ -2,7 +2,7 @@ exports.up = (knex, Promise) => {
   return Promise.all([
     knex.schema.createTable('notifications', (table) => {
       table.increments('id')
-      table.enu('evt', ['propsuport'])
+      table.enu('evt', ['propsuport', 'newvoting'])
       table.integer('objid').notNullable()
       table.string('title', 64).notNullable()
       table.string('group', 64)
